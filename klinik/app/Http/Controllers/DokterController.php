@@ -12,7 +12,12 @@ class DokterController extends Controller
      */
     public function index()
     {
-        //
+        // Panggil model Fakultas
+        $result = Dokter::all();
+        // dd($result);
+
+        // Kirim data $result ke views fakultas/index.blade.php
+        return view('dokter.index')->with('dokter', $result);
     }
 
     /**
@@ -20,7 +25,7 @@ class DokterController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -61,5 +66,76 @@ class DokterController extends Controller
     public function destroy(Dokter $dokter)
     {
         //
+    }
+
+    public function getDokter(){
+        $response['data'] = Dokter::all();
+        $response['message'] = 'List data dokter';
+        $response['success'] = true;
+
+        return response()->json($response, 200);
+    }
+
+    public function storeDokter(Request $request){
+        // validasi input
+        $input = $request->validate([
+            "nama"      => "required",
+            "keahlian"     => "required",
+            "jenis_kelamin" => "required"
+        ]);
+
+        // simpan
+        $hasil = Dokter::create($input);
+        if($hasil){ // jika data berhasil disimpan
+            $response['success'] = true;
+            $response['message'] = $request->nama." berhasil disimpan";
+            return response()->json($response, 201); // 201 Created
+        } else {
+            $response['success'] = false;
+            $response['message'] = $request->nama." gagal disimpan";
+            return response()->json($response, 400); // 400 Bad Request
+        }
+    }
+
+    public function destroyDokter($id)
+    {
+        // cari data di tabel fakultas berdasarkan "id" fakultas
+        $dokter = Dokter::find($id);
+        // dd($dokter);
+        $hasil = $dokter->delete();
+        if($hasil){ // jika data berhasil disimpan
+            $response['success'] = true;
+            $response['message'] = "Data Dokter berhasil dihapus";
+            return response()->json($response, 200);
+        } else {
+            $response['success'] = false;
+            $response['message'] = "Data Dokter gagal dihapus";
+            return response()->json($response, 400);
+        }
+    }
+
+    public function updateDokter(Request $request, $id)
+    {
+        $dokter = Dokter::find($id);
+       
+        // validasi input
+        $input = $request->validate([
+            "nama"      => "required",
+            "keahlian"     => "required",
+            "jenis_kelamin" => "required"
+        ]);
+
+        // update data
+        $hasil = $dokter->update($input);
+
+        if($hasil){ // jika data berhasil disimpan
+            $response['success'] = true;
+            $response['message'] = "Data Dokter berhasil diubah";
+            return response()->json($response, 200);
+        } else {
+            $response['success'] = false;
+            $response['message'] = "Data Dokter gagal diubah";
+            return response()->json($response, 400);
+        }
     }
 }

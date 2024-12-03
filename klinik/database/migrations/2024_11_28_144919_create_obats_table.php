@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('kode', 1);
             $table->string('nama', 50);
             $table->integer('jumlah');
-            
             $table->timestamps();
         });
     }
