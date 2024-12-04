@@ -80,7 +80,7 @@ class KunjunganController extends Controller
         ]);
 
         // simpan
-        $hasil = Dokter::create($input);
+        $hasil = Kunjungan::create($input);
         if($hasil){ // jika data berhasil disimpan
             $response['success'] = true;
             $response['message'] = $request->nama." berhasil disimpan";
@@ -92,26 +92,26 @@ class KunjunganController extends Controller
         }
     }
 
-    public function destroyDokter($id)
+    public function destroyKunjungan($id)
     {
         // cari data di tabel fakultas berdasarkan "id" fakultas
-        $dokter = Dokter::find($id);
+        $kunjungan = Kunjungan::find($id);
         // dd($dokter);
-        $hasil = $dokter->delete();
+        $hasil = $kunjungan->delete();
         if($hasil){ // jika data berhasil disimpan
             $response['success'] = true;
-            $response['message'] = "Data Dokter berhasil dihapus";
+            $response['message'] = "Data Kunjungan berhasil dihapus";
             return response()->json($response, 200);
         } else {
             $response['success'] = false;
-            $response['message'] = "Data Dokter gagal dihapus";
+            $response['message'] = "Data Kunjungan gagal dihapus";
             return response()->json($response, 400);
         }
     }
 
-    public function updateDokter(Request $request, $id)
+    public function updateKunjungan(Request $request, $id)
     {
-        $dokter = Dokter::find($id);
+        $kunjungan = Kunjungan::find($id);
        
         // validasi input
         $input = $request->validate([
@@ -121,15 +121,15 @@ class KunjunganController extends Controller
         ]);
 
         // update data
-        $hasil = $dokter->update($input);
+        $hasil = $kunjungan->update($input);
 
         if($hasil){ // jika data berhasil disimpan
             $response['success'] = true;
-            $response['message'] = "Data Dokter berhasil diubah";
+            $response['message'] = "Data Kunjungan berhasil diubah";
             return response()->json($response, 200);
         } else {
             $response['success'] = false;
-            $response['message'] = "Data Dokter gagal diubah";
+            $response['message'] = "Data Kunjungan gagal diubah";
             return response()->json($response, 400);
         }
     }
