@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kunjungan;
+use App\Models\Pasien;
 use Illuminate\Http\Request;
 
-class KunjunganController extends Controller
+class PasienController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class KunjunganController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Kunjungan $kunjungan)
+    public function show(Pasien $pasien)
     {
         //
     }
@@ -42,7 +42,7 @@ class KunjunganController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Kunjungan $kunjungan)
+    public function edit(Pasien $pasien)
     {
         //
     }
@@ -50,7 +50,7 @@ class KunjunganController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Kunjungan $kunjungan)
+    public function update(Request $request, Pasien $pasien)
     {
         //
     }
@@ -58,29 +58,31 @@ class KunjunganController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kunjungan $kunjungan)
+    public function destroy(Pasien $pasien)
     {
         //
     }
 
-    public function getKunjungan(){
-        $response['data'] = Kunjungan::all();
-        $response['message'] = 'List data kunjungan';
+    public function getPasien(){
+        $response['data'] = Pasien::all();
+        $response['message'] = 'List data Pasien';
         $response['success'] = true;
 
         return response()->json($response, 200);
     }
 
-    public function storeDKunjungan(Request $request){
+    public function storePasien(Request $request){
         // validasi input
         $input = $request->validate([
             "nama"      => "required",
-            "keahlian"     => "required",
-            "jenis_kelamin" => "required"
+            "tanggal_lahir" => "required",
+            "jenis_kelamin" => "required",
+            "alamat"     => "required",
+            "no_telp"     => "required"
         ]);
 
         // simpan
-        $hasil = Kunjungan::create($input);
+        $hasil = Pasien::create($input);
         if($hasil){ // jika data berhasil disimpan
             $response['success'] = true;
             $response['message'] = $request->nama." berhasil disimpan";
@@ -92,46 +94,47 @@ class KunjunganController extends Controller
         }
     }
 
-    public function destroyKunjungan($id)
+    public function destroyPasien($id)
     {
         // cari data di tabel fakultas berdasarkan "id" fakultas
-        $kunjungan = Kunjungan::find($id);
-        // dd($dokter);
-        $hasil = $kunjungan->delete();
+        $Pasien = Pasien::find($id);
+        // dd($Pasien);
+        $hasil = $Pasien->delete();
         if($hasil){ // jika data berhasil disimpan
             $response['success'] = true;
-            $response['message'] = "Data Kunjungan berhasil dihapus";
+            $response['message'] = "Data Pasien berhasil dihapus";
             return response()->json($response, 200);
         } else {
             $response['success'] = false;
-            $response['message'] = "Data Kunjungan gagal dihapus";
+            $response['message'] = "Data Pasien gagal dihapus";
             return response()->json($response, 400);
         }
     }
 
-    public function updateKunjungan(Request $request, $id)
+    public function updatePasien(Request $request, $id)
     {
-        $kunjungan = Kunjungan::find($id);
+        $Pasien = Pasien::find($id);
        
         // validasi input
         $input = $request->validate([
             "nama"      => "required",
-            "keahlian"     => "required",
-            "jenis_kelamin" => "required"
+            "tanggal_lahir" => "required",
+            "jenis_kelamin" => "required",
+            "alamat"     => "required",
+            "no_telp"     => "required"
         ]);
 
         // update data
-        $hasil = $kunjungan->update($input);
+        $hasil = $Pasien->update($input);
 
         if($hasil){ // jika data berhasil disimpan
             $response['success'] = true;
-            $response['message'] = "Data Kunjungan berhasil diubah";
+            $response['message'] = "Data Pasien berhasil diubah";
             return response()->json($response, 200);
         } else {
             $response['success'] = false;
-            $response['message'] = "Data Kunjungan gagal diubah";
+            $response['message'] = "Data Pasien gagal diubah";
             return response()->json($response, 400);
         }
     }
 }
-
