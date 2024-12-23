@@ -121,7 +121,7 @@ class KunjunganController extends Controller
             "kode"      => "required|unique:kunjungans",
             "tanggal"   => "required", 
             "pasien_id" => "required",
-            "kunjungan_id" => "required"
+            "dokter_id" => "required"
         ]);
 
         // update data
